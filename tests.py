@@ -23,19 +23,18 @@ class TestBooksCollector:
     # напиши свои тесты ниже
     # чтобы тесты были независимыми в каждом из них создавай отдельный экземпляр класса BooksCollector()
 
-    @pytest.mark.parametrize("name, expected_in_dict", [
-        ("Гарри Поттер", True),
-        ("А" * 41, False),
-        ("", False),
-    ])
-    def test_add_new_book_valid_name(self, name, expected_in_dict):
+    @pytest.mark.parametrize("name", ["Гарри Поттер", "Война и мир"])
+    def test_add_new_book_valid_name_positive(self, name):
         collector = BooksCollector()
         collector.add_new_book(name)
-        if expected_in_dict:
-            assert name in collector.books_genre
-            assert collector.books_genre[name] == ""
-        else:
-            assert name not in collector.books_genre
+        assert name in collector.books_genre
+        assert collector.books_genre[name] == ""
+
+    @pytest.mark.parametrize("name", ["А" * 41, ""])
+    def test_add_new_book_valid_name_negative(self, name):
+        collector = BooksCollector()
+        collector.add_new_book(name)
+        assert name not in collector.books_genre
 
     def test_add_new_book_duplicate(self):
         collector = BooksCollector()
